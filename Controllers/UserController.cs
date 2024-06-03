@@ -70,9 +70,30 @@ namespace DotnetAPI.Controllers
         }
 
         [HttpPost("AddUser")]
-        public IActionResult AddUser()
+        public IActionResult AddUser(User user)
         {
-            return Ok();
+
+            string sql = @"
+            INSERT INTO TutorialAppSchema.Users(
+                [FirstName],
+                [LastName],
+                [Email],
+                [Gender],
+                [Active]
+            ) VALUES (
+                '" + user.FirstName +
+                "', '" + user.LastName +
+                "', '" + user.Email +
+                "', '" + user.Gender +
+                "', '" + user.Active +
+            "')";
+
+            if (_dapper.ExecuteSql(sql))
+            {
+                return Ok();
+            }
+
+            throw new Exception("Failed to add new user");
         }
     }
 }
