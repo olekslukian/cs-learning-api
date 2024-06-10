@@ -98,6 +98,19 @@ namespace DotnetAPI.Controllers
 
             throw new Exception("Failed to add new user");
         }
+
+        [HttpDelete("DeleteUser")]
+        public IActionResult DeleteUser(int userId)
+        {
+            string sql = $"DELETE FROM TutorialAppSchema.Users WHERE [UserId] = {userId}";
+
+            if (_dapper.ExecuteSql(sql))
+            {
+                return Ok();
+            }
+
+            throw new Exception("Failed to delete user");
+        }
     }
 }
 
