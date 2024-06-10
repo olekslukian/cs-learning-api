@@ -70,7 +70,7 @@ namespace DotnetAPI.Controllers
         }
 
         [HttpPost("AddUser")]
-        public IActionResult AddUser(User user)
+        public IActionResult AddUser(UserDTO user)
         {
 
             string sql = @"
