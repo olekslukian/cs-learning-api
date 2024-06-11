@@ -7,15 +7,9 @@ namespace DotnetAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController(IConfiguration config) : ControllerBase
+    public class UserControllerDapper(IConfiguration config) : ControllerBase, IUserController
     {
         private readonly DataContextDapper _dapper = new(config);
-
-        [HttpGet("TestConnection")]
-        public DateTime TestConnection()
-        {
-            return _dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
-        }
 
         [HttpGet("GetUsers")]
         public IEnumerable<User> GetUsers()
