@@ -5,7 +5,7 @@ using DotnetAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DotnetAPI.Controllers
+namespace DotnetAPI.Controllers.UserController
 {
 
 

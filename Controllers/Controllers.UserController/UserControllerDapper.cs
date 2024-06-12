@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using DotnetAPI.Models;
 using DotnetAPI.Data;
 using DotnetAPI.DTOs;
+using Microsoft.Data.SqlClient;
 
-namespace DotnetAPI.Controllers
+namespace DotnetAPI.Controllers.UserController
 {
     [ApiController]
     [Route("[controller]")]
@@ -38,7 +39,9 @@ namespace DotnetAPI.Controllers
                     [Email],
                     [Gender],
                     [Active] 
-                FROM TutorialAppSchema.Users WHERE [UserId] = {userId};";
+                FROM TutorialAppSchema.Users WHERE [UserId] = @userId";
+
+            SqlParameter[] parameters = [new("@userId", userId)];
 
             User user = _dapper.LoadDataSingle<User>(sql);
 

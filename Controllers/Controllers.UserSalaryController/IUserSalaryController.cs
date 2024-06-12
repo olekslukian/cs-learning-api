@@ -2,14 +2,13 @@ using DotnetAPI.DTOs;
 using DotnetAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotnetAPI.Controllers
+namespace DotnetAPI.Controllers.UserSalaryController
 {
     public interface IUSerSalaryController
     {
-        IEnumerable<UserSalary> GetSalaries();
-        UserSalary GetSingleSalary(int userId);
+        UserSalary GetUserSalary(int userId);
         IActionResult EditSalary(UserSalary salary);
-        IActionResult AddSalary(UserSalaryToAddDTO salary);
+        IActionResult AddSalary(UserSalary salary);
         IActionResult DeleteSalary(int userId);
     }
 }
