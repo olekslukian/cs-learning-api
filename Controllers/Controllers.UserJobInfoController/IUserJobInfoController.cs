@@ -2,17 +2,16 @@ using DotnetAPI.DTOs;
 using DotnetAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotnetAPI.Controllers
+namespace DotnetAPI.Controllers.UserJobInfoController
 {
     public interface IUserJobInfoController
     {
-        IEnumerable<UserJobInfo> GetAllUserJobInfo();
 
-        UserJobInfo GetSingleUserJobInfo(int userId);
+        UserJobInfo GetUserJobInfo(int userId);
 
         IActionResult EditUserJobInfo(UserJobInfo userJobInfo);
 
-        IActionResult AddUserJobInfo(UserJobInfoToAddDTO userJobInfo);
+        IActionResult AddUserJobInfo(UserJobInfo userJobInfo);
 
         IActionResult DeleteUserJobInfo(int userId);
     }

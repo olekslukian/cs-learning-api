@@ -2,9 +2,8 @@ using DotnetAPI.DTOs;
 using DotnetAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotnetAPI.Controllers
+namespace DotnetAPI.Controllers.UserController
 {
-
     public interface IUserController
     {
         IEnumerable<User> GetUsers();
