@@ -1,4 +1,6 @@
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using DotnetAPI.Data;
@@ -119,7 +121,15 @@ namespace DotnetAPI.Controllers
                 }
             }
 
-            return Ok();
+            string userIdSql = @"
+                        SELECT 
+                            [UserId] 
+                        FROM TutorialAppSchema.Users 
+                        WHERE [Email] = + '" + userForLogin.Email + "'";
+
+            int userId = _dapper.LoadDataSingle<int>(userIdSql);
+
+            return Ok(new Dictionary<string, string> { { "token", CreateToken(userId) } });
         }
 
         private byte[] GetPasswordHash(string password, byte[] passwordSalt)
@@ -135,6 +145,32 @@ namespace DotnetAPI.Controllers
                 iterationCount: 100000,
                 numBytesRequested: 256 / 8
                 );
+        }
+
+        private string CreateToken(int userId)
+        {
+            Claim[] claims = [
+                new("userId", userId.ToString()),
+                ];
+
+            string tokenKeyString = _config.GetSection("AppSettings:TokenKey").Value ?? "";
+
+            SymmetricSecurityKey tokenKey = new(Encoding.UTF8.GetBytes(tokenKeyString));
+
+            SigningCredentials credentials = new(tokenKey, SecurityAlgorithms.HmacSha512Signature);
+
+            SecurityTokenDescriptor descriptor = new()
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = credentials
+            };
+
+            JwtSecurityTokenHandler tokenHandler = new();
+
+            SecurityToken token = tokenHandler.CreateToken(descriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }
